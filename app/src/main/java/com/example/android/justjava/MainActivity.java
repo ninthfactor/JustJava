@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -39,8 +40,17 @@ public class MainActivity extends AppCompatActivity {
 
     // Method to create a summary text when order button is clicked
 
-    private String createOrderSummary(int price, String toppingString, int quantity){
-        return "Name: Varun\n"+toppingString+"Quantity:"+quantity+"\n"+"Total:"+price+  "\nThank You!";
+    private String createOrderSummary(String nameOnScreen, int price, String toppingString, int quantity){
+        return "Name:"+
+                nameOnScreen+
+                "\n"+
+                toppingString+
+                "Quantity:"+
+                quantity+
+                "\n"+
+                "Total:"+
+                price+
+                "\nThank You!";
 
     }
 
@@ -70,12 +80,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void submitOrder(View view) {
 
-     //   display(quantity);
-     //   displayPrice(quantity * 5);
+     // Calculate price
 
         int price = calculatePrice(quantity, 5 );
+
+     // Get name entered on screen
+
+        EditText name = (EditText)findViewById(R.id.name_view);
+        String nameOnScreen = name.getText().toString();
+
         String toppingText = getToppingText(view);
-        String orderSummaryTextView = createOrderSummary(price, toppingText, quantity);
+        String orderSummaryTextView = createOrderSummary(nameOnScreen,price, toppingText, quantity);
         displayMessage(orderSummaryTextView);
     }
 
