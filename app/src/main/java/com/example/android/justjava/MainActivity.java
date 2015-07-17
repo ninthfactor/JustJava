@@ -29,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param quantity is the number of cups of coffee ordered
      */
-    private int calculatePrice(int quantity, int pricePerCoffee) {
-        int price = quantity * pricePerCoffee;
+    private int calculatePrice(int quantity, int coffeePrice, int whippingPrice,
+                                                                int chocolatePrice) {
+        int price = quantity * (coffeePrice + whippingPrice + chocolatePrice);
         return price ;
     }
 
@@ -57,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Create topping text details to add to final order
 
-    private String getToppingText(View view){
-        CheckBox topping1 = (CheckBox)findViewById(R.id.topping1);
-        CheckBox topping2 = (CheckBox)findViewById(R.id.topping2);
+    private String getToppingText(CheckBox topping1, CheckBox topping2){
+
         String toppingText = "";
         if (topping1.isChecked())
                  toppingText = toppingText + "Whipping Cream: True\n";
@@ -80,16 +80,28 @@ public class MainActivity extends AppCompatActivity {
 
     public void submitOrder(View view) {
 
-     // Calculate price
+        CheckBox topping1 = (CheckBox)findViewById(R.id.topping1);
+        CheckBox topping2 = (CheckBox)findViewById(R.id.topping2);
 
-        int price = calculatePrice(quantity, 5 );
+        int priceOfWhippingCream = 0;
+        int priceOfChocolate = 0;
+
+        // Calculate price
+        int priceOfCoffee = 5;
+
+        if (topping1.isChecked())
+            priceOfWhippingCream = 1;
+        if (topping2.isChecked())
+            priceOfChocolate = 2;
+
+        int price = calculatePrice(quantity, priceOfCoffee, priceOfWhippingCream, priceOfChocolate );
 
      // Get name entered on screen
 
         EditText name = (EditText)findViewById(R.id.name_view);
         String nameOnScreen = name.getText().toString();
 
-        String toppingText = getToppingText(view);
+        String toppingText = getToppingText(topping1, topping2);
         String orderSummaryTextView = createOrderSummary(nameOnScreen,price, toppingText, quantity);
         displayMessage(orderSummaryTextView);
     }
