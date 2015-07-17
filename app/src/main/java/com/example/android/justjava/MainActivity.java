@@ -1,11 +1,13 @@
 package com.example.android.justjava;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
@@ -22,6 +24,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+
+    // Alert for price < 0 and > 100
+
+
+    private void quantityAlert(String qAlert){
+        Context context = getApplicationContext();
+       // CharSequence text = "Hello toast!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, qAlert, duration);
+        toast.show();
+
+    }
+
+
+
+
+
+
+
+
 
 
     /**
@@ -112,9 +136,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void increment(View view){
 
-        quantity = quantity + 1;
+        if (quantity < 100)
+                quantity = quantity + 1;
+        else
+                quantityAlert("Cannot order more than 100");
+
         displayQuantity(quantity);
-        //displayPrice(quantity * 5);
+
 
     }
 
@@ -122,9 +150,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void decrement(View view){
 
-        quantity = quantity - 1;
+        if (quantity > 0)
+            quantity = quantity - 1;
+        else
+            quantityAlert("Cannot oder less than zero");
+
         displayQuantity(quantity);
-        //displayPrice(quantity * 5);
+
 
     }
 
