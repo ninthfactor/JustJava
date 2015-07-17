@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="topping1">Wipped Cream</string>
+    <string name="topping2">Chocolate</string>
+
 </resources>
