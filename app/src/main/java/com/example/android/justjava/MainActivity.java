@@ -15,7 +15,7 @@ import java.text.NumberFormat;
 public class MainActivity extends AppCompatActivity {
 
 
-    int quantity = 2;
+    int quantity = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculates the price of the order.
      *
-     * @param quantity is the number of cups of coffee ordered
-     */
-    private int calculatePrice(int quantity, int coffeePrice, int whippingPrice,
-                                                                int chocolatePrice) {
+    */
+    private int calculatePrice(int coffeePrice, Boolean needWhipping,
+                                                                Boolean needChocolate){
+
+        int whippingPrice = 0;
+        int chocolatePrice = 0;
+
+        if (needWhipping)
+            whippingPrice = 1;
+
+        if (needChocolate)
+            chocolatePrice =2;
+
         int price = quantity * (coffeePrice + whippingPrice + chocolatePrice);
         return price ;
     }
@@ -58,15 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Create topping text details to add to final order
 
-    private String getToppingText(CheckBox topping1, CheckBox topping2){
+    private String getToppingText(Boolean topping1, Boolean topping2){
 
         String toppingText = "";
-        if (topping1.isChecked())
+        if (topping1)
                  toppingText = toppingText + "Whipping Cream: True\n";
         else
                  toppingText = toppingText + "Whipping Cream : False\n";
 
-        if (topping2.isChecked())
+        if (topping2)
             toppingText = toppingText + "Chocolate: True\n";
         else
             toppingText = toppingText + "Chocolate : False\n";
@@ -82,26 +91,19 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox topping1 = (CheckBox)findViewById(R.id.topping1);
         CheckBox topping2 = (CheckBox)findViewById(R.id.topping2);
+        Boolean needWhipping = topping1.isChecked();
+        Boolean needChocolate = topping2.isChecked();
 
-        int priceOfWhippingCream = 0;
-        int priceOfChocolate = 0;
-
-        // Calculate price
         int priceOfCoffee = 5;
 
-        if (topping1.isChecked())
-            priceOfWhippingCream = 1;
-        if (topping2.isChecked())
-            priceOfChocolate = 2;
-
-        int price = calculatePrice(quantity, priceOfCoffee, priceOfWhippingCream, priceOfChocolate );
+        int price = calculatePrice(priceOfCoffee, needWhipping,needChocolate );
 
      // Get name entered on screen
 
         EditText name = (EditText)findViewById(R.id.name_view);
         String nameOnScreen = name.getText().toString();
 
-        String toppingText = getToppingText(topping1, topping2);
+        String toppingText = getToppingText(needWhipping, needChocolate);
         String orderSummaryTextView = createOrderSummary(nameOnScreen,price, toppingText, quantity);
         displayMessage(orderSummaryTextView);
     }
