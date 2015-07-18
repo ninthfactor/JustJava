@@ -1,6 +1,8 @@
 package com.example.android.justjava;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,12 +20,33 @@ public class MainActivity extends AppCompatActivity {
 
 
     int quantity = 0;
+    String orderSummaryTextView = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+
+    // email intent
+
+    public void composeEmail(String[] addresses, String subject, String body) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    public void emailIntent(View view){
+        String[] emailAddress = {"varunraj82@gmail.com"};
+        composeEmail (emailAddress,"Order Summary",orderSummaryTextView);
+    }
+
 
 
     // Alert for price < 0 and > 100
@@ -38,15 +61,6 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
 
     }
-
-
-
-
-
-
-
-
-
 
     /**
      * Calculates the price of the order.
@@ -128,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         String nameOnScreen = name.getText().toString();
 
         String toppingText = getToppingText(needWhipping, needChocolate);
-        String orderSummaryTextView = createOrderSummary(nameOnScreen,price, toppingText, quantity);
+        orderSummaryTextView = createOrderSummary(nameOnScreen,price, toppingText, quantity);
         displayMessage(orderSummaryTextView);
     }
 
