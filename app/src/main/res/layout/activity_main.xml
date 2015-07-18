@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:onClick="emailIntent"
-            android:text="Email" />
+            android:text="Email Order" />
 
     </LinearLayout>
 </ScrollView>
